@@ -62,6 +62,8 @@ function draw_pillar(x1, y1, x2, y2, color, thickness) {
     ctx.stroke();
 }
 function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
+    console.log(l + ", " + r);
+
     cu_el_color = cu_el_color || "tomato";
     f_area_color = f_area_color || "#ffcccc";
 
@@ -137,8 +139,6 @@ async function doLinearSearch(rarr, key) {
     await linearSearch(rarr, key, 0, rarr.length - 1, glob_search_display_func);
 }
 async function doJumpSearch(rarr, key) {
-    prarr = rarr.slice();
-
     // -- QUICK SORT -- //
     document.getElementById('algorithm_div').innerHTML = "QuickSort";
     if (glob_show_sorting)
@@ -146,12 +146,23 @@ async function doJumpSearch(rarr, key) {
     else
         await qSort_noDisplay(rarr, 0, rarr.length - 1);
 
-    srarr = rarr.slice();
-
     // -- JUMP SEARCH -- //
     document.getElementById('algorithm_div').innerHTML = "JumpSearch";
     await jumpSearch(rarr, key, undefined, glob_search_display_func);
 }
+async function doExponentialSearch(rarr, key) {
+    // -- QUICK SORT -- //
+    document.getElementById('algorithm_div').innerHTML = "QuickSort";
+    if (glob_show_sorting)
+        await qSort(rarr, 0, rarr.length - 1, glob_display_func);
+    else
+        await qSort_noDisplay(rarr, 0, rarr.length - 1);
+
+    // -- EXPONENTIAL SEARCH -- //
+    document.getElementById('algorithm_div').innerHTML = "ExponentialSearch";
+    await exponentialSearch(rarr, key, glob_search_display_func);
+}
+
 
 // ------------------------------ GLOBALS ------------------------------------------------------------- //
 

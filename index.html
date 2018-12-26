@@ -165,6 +165,7 @@
                     <option value="binary_search">Binary Search</option>
                     <option value="jump_search">Jump Search</option>
                     <option value="interpolation_search">Interpolation Search</option>
+                    <option value="exponential_search">Exponential Search</option>
                 </select></td>
         </tr>
         <tr>
@@ -222,6 +223,7 @@
     <script src="algos/interpolation_search.js"></script>
     <script src="algos/linear_search.js"></script>
     <script src="algos/jump_search.js"></script>
+    <script src="algos/exponential_search.js"></script>
 
     <script src="sorting_algos/quick_sort.js"></script>
 
@@ -295,6 +297,9 @@
                         break;
                     case 'jump_search':
                         doSearchingAlgo(doJumpSearch);
+                        break;
+                    case 'exponential_search':
+                        doSearchingAlgo(doExponentialSearch);
                         break;
                 }
             };
