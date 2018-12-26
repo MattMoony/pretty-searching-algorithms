@@ -217,6 +217,8 @@
     </div>
 
     <script src="algos/binary_search.js"></script>
+    <script src="algos/interpolation_search.js"></script>
+
 
     <script src="sorting_algos/quick_sort.js"></script>
 
@@ -275,6 +277,9 @@
                 switch (algo) {
                     case 'binary_search':
                         doSearchingAlgo(doBinarySearch);
+                        break;
+                    case 'interpolation_search':
+                        doSearchingAlgo(doInterpolationSearch);
                         break;
                 }
             };

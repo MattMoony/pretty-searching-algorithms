@@ -20,7 +20,6 @@ function create_array_random(amount, upper, lower) {
 
     return arr;
 }
-
 function create_array_semi_random(amount, upper, lower) {
     arr = [...Array(upper).keys()].splice(lower);
 
@@ -61,7 +60,6 @@ function draw_pillar(x1, y1, x2, y2, color, thickness) {
 
     ctx.stroke();
 }
-
 function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
     cu_el_color = cu_el_color || "tomato";
     f_area_color = f_area_color || "#ffcccc";
@@ -84,7 +82,7 @@ function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
 
     // -- DRAW CURRENT ELEMENT -- //
     cu_x = (cu_el_i + 1) * (canvas.width / (arr.length - 1));
-    draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color);
+    draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color, 2);
 }
 
 async function doSearchingAlgo(f) {
@@ -98,7 +96,7 @@ async function doSearchingAlgo(f) {
     document.getElementById('searched_element').innerHTML = key;
     
     glob_display_func(rarr);
-    await sleep(glob_sleep_time);
+    await sleep(Math.floor(glob_sleep_time/2));
 
     await f(rarr, key);
 
@@ -117,6 +115,18 @@ async function doBinarySearch(rarr, key) {
     // -- BINARY SEARCH -- //
     document.getElementById('algorithm_div').innerHTML = "BinarySearch";
     await binarySearch(rarr, key, 0, rarr.length - 1, glob_search_display_func);
+}
+async function doInterpolationSearch(rarr, key) {
+    // -- QUICK SORT -- //
+    document.getElementById('algorithm_div').innerHTML = "QuickSort";
+    if (glob_show_sorting)
+        await qSort(rarr, 0, rarr.length - 1, glob_display_func);
+    else
+        await qSort_noDisplay(rarr, 0, rarr.length - 1);
+
+    // -- INTERPOLATION SEARCH -- //
+    document.getElementById('algorithm_div').innerHTML = "InterpolationSearch";
+    await interpolationSearch(rarr, key, 0, rarr.length - 1, glob_search_display_func);
 }
 
 // ------------------------------ GLOBALS ------------------------------------------------------------- //
