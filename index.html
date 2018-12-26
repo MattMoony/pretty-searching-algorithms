@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Visualizing searching algos</title>
+</head>
+
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Unica+One');
+        @import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+        @import url('https://fonts.googleapis.com/css?family=Quicksand');
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body {
+            overflow: hidden;
+            font-family: 'Roboto';
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Unica One';
+            font-size: 55px;
+
+            padding-bottom: 10px;
+            border-bottom: 2px solid black;
+        }
+        .important_letter {
+            color: royalblue;
+        }
+        #score_div {
+            display: block;
+            position: fixed;
+            right: 30px; bottom: 100px;
+
+            font-family: 'Quicksand';
+        }
+        #comparisons, #runtime {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        td {
+            padding: 0 7.5px;
+        }
+        #algo_info {
+            display: block;
+            position: fixed;
+            right: 30px; top: 150px;
+
+            font-family: 'Quicksand';
+            font-weight: bold;
+            font-size: 17.5px;
+        }
+        #algorithm_div {
+            font-size: 35px;
+        }
+        #algorithm_div::first-letter {
+            color: royalblue;
+        }
+
+
+        #algorithm_settings {
+            border-left: 1.5px solid dimgray;
+            display: block;
+            position: fixed;
+            left: 25px; top: 350px;
+            padding: 15px 2.5px;
+        }
+        select, input {
+            font-size: 12.5px;
+            margin-bottom: 1px;
+            font-family: 'Roboto';
+            padding: 2.5px 7.5px;
+            border: 1px solid #cecece;
+            border-radius: 1px;
+        }
+        select:focus, input:focus {
+            outline: none;
+        }
+        #algorithm_settings input[type="button"] {
+            background-color: royalblue;
+            border: none;
+            color: white;
+            padding: 7.5px 15px;
+            border-radius: 2.5px;
+            font-size: 15px;
+            margin-top: 12.5px;
+            transition: .5s ease;
+        }
+        #algorithm_settings input[type="button"]:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        td:last-child {
+            text-align: right;
+        }
+
+
+        #canvas_div {
+            display: block;
+            margin: 0 auto;
+            width: 70%;
+
+            /* border-left: 2px dashed dimgray;
+            border-right: 2px dashed dimgray; */
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            /* background-color: aliceblue; */
+
+            /* border-bottom: 1.5px solid dimgray; */
+        }
+        footer {
+            display: block;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            width: 100%;
+            text-align: center;
+            padding-bottom: 10px;
+            font-family: 'Share Tech Mono';
+        }
+    </style>
+
+    <h1><span class='important_letter'>S</span>earching <span class='important_letter'>A</span>lgorithms</h1>
+
+    <div id="score_div">
+        <table>
+            <tr>
+                <td>Comparisons</td>
+                <td id="comparisons">0</td>
+            </tr>
+            <tr>
+                <td>Runtime [s]</td>
+                <td id="runtime">0</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="algo_info">
+        <div id="algorithm_div">-</div>
+
+        <table>
+            <tr>
+                <td>Searched element: </td>
+                <td id="searched_element">-</td>
+            </tr>
+            <tr>
+                <td>Current element: </td>
+                <td id="current_element">-</td>
+            </tr>
+        </table>
+    </div>
+
+    <table id="algorithm_settings">
+        <tr>
+            <td><label for="algorithm_input">Algorithm: </label></td>
+            <td><select id="algorithm_input">
+                    <option value="binary_search">Binary Search</option>
+                    <option value="interpolation_search">Interpolation Search</option>
+                </select></td>
+        </tr>
+        <tr>
+            <td><label for="show_sorting">Display sorting: </label></td>
+            <td><input id="show_sorting" type="checkbox" checked /></td>
+        </tr>
+        <tr>
+            <td><label for="amount_input">Amount: </label></td>
+            <td><input id="amount_input" type="number" placeholder="e.g.: 1000" /></td>
+        </tr>
+        <tr>
+            <td><label for="sorting_pause_input">Sorting Pause [ms]: </label></td>
+            <td><input id="sorting_pause_input" type="number" placeholder="e.g.: 100" /></td>
+        </tr>
+        <tr>
+            <td><label for="pause_input">Searching Pause [ms]: </label></td>
+            <td><input id="pause_input" type="number" placeholder="e.g.: 100" /></td>
+        </tr>
+        <tr>
+            <td><label for="lower_input">Lower boundry: </label></td>
+            <td><input id="lower_input" type="number" placeholder="e.g.: 10" /></td>
+        </tr>
+        <tr>
+            <td><label for="upper_input">Upper boundry: </label></td>
+            <td><input id="upper_input" type="number" placeholder="e.g.: 10000" /></td>
+        </tr>
+        <tr>
+            <td><label for="display_function">Display option: </label></td>
+            <td>
+                <select id="display_function">
+                    <option value="display_pillars">As pillars</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="create_func">Creation options: </label></td>
+            <td>
+                <select id="create_func">
+                    <option value="create_random">Completely random</option>
+                    <option value="create_semi_random">"Semi" random</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="button" id="submit_start" value="Start!" /></td>
+        </tr>
+    </table>
+
+    <div id="canvas_div">
+        <canvas id="main" width="800" height="700"></canvas>
+    </div>
+
+    <script src="algos/binary_search.js"></script>
+
+    <script src="sorting_algos/quick_sort.js"></script>
+
+    <script src="./visualize.js"></script>
+    <script>
+        window.onload = e => {
+            // stuff ... 
+            cnvs = document.getElementById('main');
+            ctx = cnvs.getContext('2d');
+
+            canvas = {
+                width: document.getElementById('main').width,
+                height: document.getElementById('main').height
+            };
+
+            document.getElementById('submit_start').onclick = e => {
+                let algo = document.getElementById('algorithm_input').value,
+                    amount = document.getElementById('amount_input').value,
+                    sorting_pause_ms = document.getElementById('sorting_pause_input').value,
+                    pause_ms = document.getElementById('pause_input').value,
+                    lower = document.getElementById('lower_input').value,
+                    upper = document.getElementById('upper_input').value,
+                    display_func = document.getElementById('display_function').value,
+                    create_func = document.getElementById('create_func').value;
+
+                let show_sorting = document.getElementById('show_sorting').checked;
+                glob_show_sorting = show_sorting;
+
+                if (amount != '')
+                    glob_amount = parseInt(amount);
+                if (sorting_pause_ms != '')
+                    glob_sorting_sleep_time = parseInt(sorting_pause_ms);
+                if (pause_ms != '')
+                    glob_sleep_time = parseInt(pause_ms);
+                if (lower != '')
+                    glob_lower = parseInt(lower);
+                if (upper != '')
+                    glob_upper = parseInt(upper);
+
+                switch (display_func) {
+                    case 'display_pillars':
+                        glob_search_display_func = display_pillars;
+                        break;
+                }
+
+                switch (create_func) {
+                    case 'create_random':
+                        glob_random_func = create_array_random;
+                        break;
+                    case 'create_semi_random':
+                        glob_random_func = create_array_semi_random;
+                        break;
+                }
+
+                glob_stime = (new Date()).getTime();
+                switch (algo) {
+                    case 'binary_search':
+                        doSearchingAlgo(doBinarySearch);
+                        break;
+                }
+            };
+
+            visualize_init();
+        };
+    </script>
+</body>
+
+</html>
