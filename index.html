@@ -179,7 +179,7 @@
         </tr>
         <tr>
             <td><label for="pause_input">Searching Pause [ms]: </label></td>
-            <td><input id="pause_input" type="number" placeholder="e.g.: 100" /></td>
+            <td><input id="pause_input" type="number" placeholder="e.g.: 100" value="500"/></td>
         </tr>
         <tr>
             <td><label for="lower_input">Lower boundry: </label></td>
@@ -232,6 +232,10 @@
             canvas = {
                 width: document.getElementById('main').width,
                 height: document.getElementById('main').height
+            };
+
+            document.onkeyup = e => {
+                document.getElementById('submit_start').click();
             };
 
             document.getElementById('submit_start').onclick = e => {
