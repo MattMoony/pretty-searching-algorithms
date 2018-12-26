@@ -163,6 +163,7 @@
             <td><select id="algorithm_input">
                     <option value="linear_search">Linear Search</option>
                     <option value="binary_search">Binary Search</option>
+                    <option value="jump_search">Jump Search</option>
                     <option value="interpolation_search">Interpolation Search</option>
                 </select></td>
         </tr>
@@ -220,6 +221,7 @@
     <script src="algos/binary_search.js"></script>
     <script src="algos/interpolation_search.js"></script>
     <script src="algos/linear_search.js"></script>
+    <script src="algos/jump_search.js"></script>
 
     <script src="sorting_algos/quick_sort.js"></script>
 
@@ -236,7 +238,7 @@
             };
 
             document.onkeyup = e => {
-                if (e.keyCode == 13) {
+                if (e.keyCode == 13 && document.getElementById('algorithm_settings').style.display == "block") {
                     document.getElementById('submit_start').click();
                 }
             };
@@ -290,6 +292,9 @@
                         break;
                     case 'linear_search':
                         doSearchingAlgo(doLinearSearch);
+                        break;
+                    case 'jump_search':
+                        doSearchingAlgo(doJumpSearch);
                         break;
                 }
             };

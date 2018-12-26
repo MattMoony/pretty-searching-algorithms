@@ -20,6 +20,7 @@ function create_array_random(amount, upper, lower) {
 
     return arr;
 }
+
 function create_array_semi_random(amount, upper, lower) {
     arr = [...Array(upper).keys()].splice(lower);
 
@@ -81,8 +82,10 @@ function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
     }
 
     // -- DRAW CURRENT ELEMENT -- //
-    cu_x = (cu_el_i + 1) * (canvas.width / (arr.length - 1));
-    draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color, 2);
+    if (cu_el_i) {
+        cu_x = (cu_el_i + 1) * (canvas.width / (arr.length - 1));
+        draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color, 2);
+    }
 }
 
 async function doSearchingAlgo(f) {
@@ -94,9 +97,9 @@ async function doSearchingAlgo(f) {
     key = rarr[Math.floor(Math.random() * rarr.length)];
 
     document.getElementById('searched_element').innerHTML = key;
-    
+
     glob_display_func(rarr);
-    await sleep(Math.floor(glob_sleep_time/2));
+    await sleep(Math.floor(glob_sleep_time / 2));
 
     await f(rarr, key);
 
@@ -131,7 +134,19 @@ async function doInterpolationSearch(rarr, key) {
 async function doLinearSearch(rarr, key) {
     // -- LINEAR SEARCH -- //
     document.getElementById('algorithm_div').innerHTML = "LinearSearch";
-    await linearSearch(rarr, key, glob_search_display_func);
+    await linearSearch(rarr, key, 0, rarr.length - 1, glob_search_display_func);
+}
+async function doJumpSearch(rarr, key) {
+    // -- QUICK SORT -- //
+    document.getElementById('algorithm_div').innerHTML = "QuickSort";
+    if (glob_show_sorting)
+        await qSort(rarr, 0, rarr.length - 1, glob_display_func);
+    else
+        await qSort_noDisplay(rarr, 0, rarr.length - 1);
+
+    // -- JUMP SEARCH -- //
+    document.getElementById('algorithm_div').innerHTML = "JumpSearch";
+    await jumpSearch(rarr, key, undefined, glob_search_display_func);
 }
 
 // ------------------------------ GLOBALS ------------------------------------------------------------- //
@@ -154,6 +169,5 @@ var glob_comp = 0;
 
 function visualize_init() {
     document.getElementById('pause_input').innerHTML = glob_sleep_time;
-
     doSearchingAlgo(doInterpolationSearch);
 }
