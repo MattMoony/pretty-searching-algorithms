@@ -9,7 +9,7 @@ async function jumpSearch(a, k, block, display) {
         display(a, undefined, pe, i);
         await sleep(glob_sleep_time);
 
-        if (a[pe] < k && k < a[i]) {
+        if (a[pe] <= k && k <= a[i]) {
             let re = await linearSearch(a, k, pe, i, display);
             return new Promise(resolve => resolve(re));
         }

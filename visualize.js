@@ -137,12 +137,16 @@ async function doLinearSearch(rarr, key) {
     await linearSearch(rarr, key, 0, rarr.length - 1, glob_search_display_func);
 }
 async function doJumpSearch(rarr, key) {
+    prarr = rarr.slice();
+
     // -- QUICK SORT -- //
     document.getElementById('algorithm_div').innerHTML = "QuickSort";
     if (glob_show_sorting)
         await qSort(rarr, 0, rarr.length - 1, glob_display_func);
     else
         await qSort_noDisplay(rarr, 0, rarr.length - 1);
+
+    srarr = rarr.slice();
 
     // -- JUMP SEARCH -- //
     document.getElementById('algorithm_div').innerHTML = "JumpSearch";
