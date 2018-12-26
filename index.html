@@ -161,6 +161,7 @@
         <tr>
             <td><label for="algorithm_input">Algorithm: </label></td>
             <td><select id="algorithm_input">
+                    <option value="linear_search">Linear Search</option>
                     <option value="binary_search">Binary Search</option>
                     <option value="interpolation_search">Interpolation Search</option>
                 </select></td>
@@ -179,7 +180,7 @@
         </tr>
         <tr>
             <td><label for="pause_input">Searching Pause [ms]: </label></td>
-            <td><input id="pause_input" type="number" placeholder="e.g.: 100" value="500"/></td>
+            <td><input id="pause_input" type="number" placeholder="e.g.: 100" /></td>
         </tr>
         <tr>
             <td><label for="lower_input">Lower boundry: </label></td>
@@ -218,7 +219,7 @@
 
     <script src="algos/binary_search.js"></script>
     <script src="algos/interpolation_search.js"></script>
-
+    <script src="algos/linear_search.js"></script>
 
     <script src="sorting_algos/quick_sort.js"></script>
 
@@ -286,6 +287,9 @@
                         break;
                     case 'interpolation_search':
                         doSearchingAlgo(doInterpolationSearch);
+                        break;
+                    case 'linear_search':
+                        doSearchingAlgo(doLinearSearch);
                         break;
                 }
             };

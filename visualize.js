@@ -128,14 +128,19 @@ async function doInterpolationSearch(rarr, key) {
     document.getElementById('algorithm_div').innerHTML = "InterpolationSearch";
     await interpolationSearch(rarr, key, 0, rarr.length - 1, glob_search_display_func);
 }
+async function doLinearSearch(rarr, key) {
+    // -- LINEAR SEARCH -- //
+    document.getElementById('algorithm_div').innerHTML = "LinearSearch";
+    await linearSearch(rarr, key, glob_search_display_func);
+}
 
 // ------------------------------ GLOBALS ------------------------------------------------------------- //
 
-var glob_amount = 256,
+var glob_amount = 128,
     glob_lower = 0,
     glob_upper = 150,
     glob_sorting_sleep_time = 1,
-    glob_sleep_time = 1,
+    glob_sleep_time = 250,
     glob_sleep_between = 1000,
     glob_display_func = display_array_pillars,
     glob_search_display_func = display_pillars,
@@ -148,6 +153,7 @@ var glob_comp = 0;
 // ---------------------------------------------------------------------------------------------------- //
 
 function visualize_init() {
-    // rarr = create_array_semi_random(150, 0);
-    // display_pillars(rarr, 20, 0, 40);
+    document.getElementById('pause_input').innerHTML = glob_sleep_time;
+
+    doSearchingAlgo(doInterpolationSearch);
 }
