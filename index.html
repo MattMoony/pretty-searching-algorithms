@@ -47,6 +47,7 @@
             display: block;
             position: fixed;
             right: 30px; top: 150px;
+            background-color: rgba(255, 255, 255, 0.9);
 
             font-family: 'Quicksand';
             font-weight: bold;
@@ -166,6 +167,7 @@
                     <option value="jump_search">Jump Search</option>
                     <option value="interpolation_search">Interpolation Search</option>
                     <option value="exponential_search">Exponential Search</option>
+                    <option value="fibonacci_search">Fibonacci Search</option>
                 </select></td>
         </tr>
         <tr>
@@ -224,6 +226,7 @@
     <script src="algos/linear_search.js"></script>
     <script src="algos/jump_search.js"></script>
     <script src="algos/exponential_search.js"></script>
+    <script src="algos/fibonacci_search.js"></script>
 
     <script src="sorting_algos/quick_sort.js"></script>
 
@@ -300,6 +303,9 @@
                         break;
                     case 'exponential_search':
                         doSearchingAlgo(doExponentialSearch);
+                        break;
+                    case 'fibonacci_search':
+                        doSearchingAlgo(doFibonacciSearch);
                         break;
                 }
             };

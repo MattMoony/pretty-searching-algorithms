@@ -3,7 +3,7 @@ function sleep(ms) {
 }
 
 function refresh(comp, cu_el) {
-    document.getElementById('current_element').innerHTML = cu_el || '-';
+    document.getElementById('current_element').innerHTML = cu_el !== undefined ? cu_el : '-';
 
     document.getElementById('comparisons').innerHTML = comp;
     document.getElementById('runtime').innerHTML = ((new Date()).getTime() - glob_stime) / 1000.0;
@@ -62,8 +62,6 @@ function draw_pillar(x1, y1, x2, y2, color, thickness) {
     ctx.stroke();
 }
 function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
-    console.log(l + ", " + r);
-
     cu_el_color = cu_el_color || "tomato";
     f_area_color = f_area_color || "#ffcccc";
 
@@ -161,6 +159,18 @@ async function doExponentialSearch(rarr, key) {
     // -- EXPONENTIAL SEARCH -- //
     document.getElementById('algorithm_div').innerHTML = "ExponentialSearch";
     await exponentialSearch(rarr, key, glob_search_display_func);
+}
+async function doFibonacciSearch(rarr, key) {
+    // -- QUICK SORT -- //
+    document.getElementById('algorithm_div').innerHTML = "QuickSort";
+    if (glob_show_sorting)
+        await qSort(rarr, 0, rarr.length - 1, glob_display_func);
+    else
+        await qSort_noDisplay(rarr, 0, rarr.length - 1);
+
+    // -- FIBONACCI SEARCH -- //
+    document.getElementById('algorithm_div').innerHTML = "FibonacciSearch";
+    await fibonacciSearch(rarr, key, 0, rarr.length-1, glob_search_display_func);
 }
 
 
