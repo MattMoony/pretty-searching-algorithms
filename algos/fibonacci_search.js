@@ -19,20 +19,29 @@ async function fibonacciSearch(a, k, l, r, display) {
     let f = smallest_greater_eq_fib(r-l+1);
 
     while (f >= 0) {
-        i = Math.min(l+fib(f-1), r-1)
-        i = Math.max(0, i)
+        i = Math.min(l+fib(f-1), r-1);
+        i = Math.max(0, i);
 
-        refresh(0, a[i]);
+        refresh(glob_comp, a[i]);
 
         display(a, i, l, r);
         await sleep(glob_sleep_time);
 
         if (a[i]==k) {
+            glob_comp++;
+            refresh(glob_comp, a[i]);
+
             return new Promise(resolve => resolve(i));
         } else if (k < a[l+fib(f-1)]) {
+            glob_comp+=2;
+            refresh(glob_comp, a[i]);
+
             r = i;
             f-=1;
         } else {
+            glob_comp+=2;
+            refresh(glob_comp, a[i]);
+
             l = i;
             f-=2;
         }

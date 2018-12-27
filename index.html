@@ -67,6 +67,7 @@
             position: fixed;
             left: 25px; top: 350px;
             padding: 15px 2.5px;
+            background-color: rgba(255,255,255,0.9);
         }
         select, input {
             font-size: 12.5px;
@@ -163,6 +164,7 @@
             <td><label for="algorithm_input">Algorithm: </label></td>
             <td><select id="algorithm_input">
                     <option value="linear_search">Linear Search</option>
+                    <option value="double_linear_search">Double Linear Search</option>
                     <option value="binary_search">Binary Search</option>
                     <option value="jump_search">Jump Search</option>
                     <option value="interpolation_search">Interpolation Search</option>
@@ -227,6 +229,7 @@
     <script src="algos/jump_search.js"></script>
     <script src="algos/exponential_search.js"></script>
     <script src="algos/fibonacci_search.js"></script>
+    <script src="algos/double_linear_search.js"></script>
 
     <script src="sorting_algos/quick_sort.js"></script>
 
@@ -306,6 +309,9 @@
                         break;
                     case 'fibonacci_search':
                         doSearchingAlgo(doFibonacciSearch);
+                        break;
+                    case 'double_linear_search':
+                        doSearchingAlgo(doDoubleLinearSearch);
                         break;
                 }
             };
