@@ -69,19 +69,6 @@ function display_array_pillars(arr) {
         ctx.stroke();
     }
 }
-function display_array_pillar_spiral(arr) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 360/(arr.length-1), c = 0; i < 360; i+=360/(arr.length-1), c++) {
-        ctx.beginPath();
-        ctx.strokeStyle = glob_themes[glob_theme]["color"];
-        ctx.lineWidth = 4;
-
-        ctx.moveTo(canvas.width/2, canvas.height/2);
-        ctx.lineTo((canvas.width/2) + arr[c] *Math.cos(Math.PI*i/180.0), (canvas.height/2) + arr[c] *Math.sin(Math.PI*i/180.0));
-        ctx.stroke();
-    }
-}
 
 function draw_pillar(x1, y1, x2, y2, color, thickness) {
     color = color || glob_themes[glob_theme]["color"];
@@ -97,50 +84,21 @@ function draw_pillar(x1, y1, x2, y2, color, thickness) {
     ctx.stroke();
 }
 function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
-    cu_el_color = cu_el_color || "tomato";
+    cu_el_color = cu_el_color || "#f00";
     f_area_color = f_area_color || "#ffcccc";
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let scale = canvas.height / Math.max(...arr);
 
-    // -- DRAW NOT FOCUSED -- //
-    for (let i = canvas.width / (arr.length+1); i <= (l+1) * (canvas.width/(arr.length+1)); i += canvas.width / (arr.length+1)) {
-        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale));
-    }
-    for (let i = (r + 2) * (canvas.width / (arr.length+1)); i <= canvas.width; i += canvas.width / (arr.length+1)) {
-        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale));
-    }
+    for (let i = canvas.width / (arr.length+1); i <= canvas.width; i += canvas.width / (arr.length+1)) {
+        let index = Math.floor((i / (canvas.width / (arr.length+1))))-1,
+            c = index == cu_el_i ? cu_el_color : index >= l && index <= r ? f_area_color : glob_themes[glob_theme]["color"],
+            t = index == cu_el_i || (index >= l && index <= r) ? 5 : 4;
 
-    // -- DRAW FOCUSED -- //
-    for (let i = (l + 1) * (canvas.width / (arr.length+1)); i <= (r + 2) * (canvas.width / (arr.length+1)); i += canvas.width / (arr.length+1)) {
-        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale), f_area_color);
-    }
-
-    // -- DRAW CURRENT ELEMENT(S) -- //
-    if (cu_el_i) {
-        if (typeof cu_el_i == "number") {
-            cu_x = (cu_el_i + 1) * (canvas.width / (arr.length+1));
-            draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color, 4);
-        } else {
-            cu_el_i.forEach(v => {
-                cu_x = (v + 1) * (canvas.width / (arr.length+1));
-                draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[v] * scale), cu_el_color, 4);
-            });
-        }
+        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale), 
+            c, t);
     }
 }
-// function display_pillar_spiral(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-//     for (let i = 360/(arr.length-1), c = 0; i < 360; i+=360/(arr.length-1), c++) {
-//         ctx.beginPath();
-//         ctx.strokeStyle = "black";
-//         ctx.moveTo(canvas.width/2, canvas.height/2);
-//         ctx.lineTo((canvas.width/2) + arr[c] *Math.cos(Math.PI*i/180.0), (canvas.height/2) + arr[c] *Math.sin(Math.PI*i/180.0));
-//         ctx.stroke();
-//     }
-// }
-
 
 async function doSearchingAlgo(f) {
     document.getElementById('algorithm_settings').style.display = "none";
