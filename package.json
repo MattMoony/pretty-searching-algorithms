@@ -1,0 +1,22 @@
+{
+  "name": "searching_visualization",
+  "version": "1.0.0",
+  "description": "Pretty representations of popular searching algorithms.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattMoony/pretty-searching-algorithms.git"
+  },
+  "author": "MattMoony",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MattMoony/pretty-searching-algorithms/issues"
+  },
+  "homepage": "https://github.com/MattMoony/pretty-searching-algorithms#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

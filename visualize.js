@@ -1,12 +1,32 @@
 function sleep(ms) {
     return new Promise(resolve => window.setTimeout(resolve, ms));
 }
-
 function refresh(comp, cu_el) {
     document.getElementById('current_element').innerHTML = cu_el !== undefined ? cu_el : '-';
 
     document.getElementById('comparisons').innerHTML = comp;
     document.getElementById('runtime').innerHTML = ((new Date()).getTime() - glob_stime) / 1000.0;
+}
+function changeTheme(theme) {
+    var xhtp = new XMLHttpRequest();
+    xhtp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementsByTagName('style')[0].innerHTML = this.responseText;
+        }
+    }
+
+    var avThemes = ["dark", "light"];
+    if (!avThemes.includes(theme))
+        return -1;
+
+    glob_theme = theme;
+    if (document.getElementById('theme_in')!==null)
+        document.getElementById('theme_in').value = theme;
+
+    window.history.pushState(`${theme.toUpperCase()}-THEME`, 'Changed theme ... ', `${theme}`);
+
+    xhtp.open("GET", "themes/" + theme + ".css");
+    xhtp.send();
 }
 
 function create_array_random(amount, upper, lower) {
@@ -41,16 +61,31 @@ function display_array_pillars(arr) {
 
     for (let i = canvas.width / (arr.length - 1); i < canvas.width; i += canvas.width / (arr.length - 1)) {
         ctx.beginPath();
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = glob_themes[glob_theme]["color"];
+        ctx.lineWidth = 4;
+
         ctx.moveTo(i, canvas.height);
         ctx.lineTo(i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length - 1)))] * scale));
         ctx.stroke();
     }
 }
+function display_array_pillar_spiral(arr) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 360/(arr.length-1), c = 0; i < 360; i+=360/(arr.length-1), c++) {
+        ctx.beginPath();
+        ctx.strokeStyle = glob_themes[glob_theme]["color"];
+        ctx.lineWidth = 4;
+
+        ctx.moveTo(canvas.width/2, canvas.height/2);
+        ctx.lineTo((canvas.width/2) + arr[c] *Math.cos(Math.PI*i/180.0), (canvas.height/2) + arr[c] *Math.sin(Math.PI*i/180.0));
+        ctx.stroke();
+    }
+}
 
 function draw_pillar(x1, y1, x2, y2, color, thickness) {
-    color = color || "black";
-    thickness = thickness || 1;
+    color = color || glob_themes[glob_theme]["color"];
+    thickness = thickness || 4;
 
     ctx.beginPath();
     ctx.strokeStyle = color;
@@ -61,7 +96,6 @@ function draw_pillar(x1, y1, x2, y2, color, thickness) {
 
     ctx.stroke();
 }
-
 function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
     cu_el_color = cu_el_color || "tomato";
     f_area_color = f_area_color || "#ffcccc";
@@ -70,31 +104,43 @@ function display_pillars(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
     let scale = canvas.height / Math.max(...arr);
 
     // -- DRAW NOT FOCUSED -- //
-    for (let i = canvas.width / (arr.length - 1); i <= l * (canvas.width / (arr.length - 1)); i += canvas.width / (arr.length - 1)) {
-        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length - 1)))] * scale));
+    for (let i = canvas.width / (arr.length+1); i <= (l+1) * (canvas.width/(arr.length+1)); i += canvas.width / (arr.length+1)) {
+        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale));
     }
-    for (let i = (r + 1) * (canvas.width / (arr.length - 1)); i < canvas.width; i += canvas.width / (arr.length - 1)) {
-        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length - 1)))] * scale));
+    for (let i = (r + 2) * (canvas.width / (arr.length+1)); i <= canvas.width; i += canvas.width / (arr.length+1)) {
+        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale));
     }
 
     // -- DRAW FOCUSED -- //
-    for (let i = (l + 1) * (canvas.width / (arr.length - 1)); i <= r * (canvas.width / (arr.length - 1)); i += canvas.width / (arr.length - 1)) {
-        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length - 1)))] * scale), f_area_color);
+    for (let i = (l + 1) * (canvas.width / (arr.length+1)); i <= (r + 2) * (canvas.width / (arr.length+1)); i += canvas.width / (arr.length+1)) {
+        draw_pillar(i, canvas.height, i, canvas.height - (arr[Math.floor(i / (canvas.width / (arr.length+1)))-1] * scale), f_area_color);
     }
 
     // -- DRAW CURRENT ELEMENT(S) -- //
     if (cu_el_i) {
         if (typeof cu_el_i == "number") {
-            cu_x = (cu_el_i + 1) * (canvas.width / (arr.length - 1));
-            draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color, 2);
+            cu_x = (cu_el_i + 1) * (canvas.width / (arr.length+1));
+            draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[cu_el_i] * scale), cu_el_color, 4);
         } else {
             cu_el_i.forEach(v => {
-                cu_x = (v + 1) * (canvas.width / (arr.length - 1));
-                draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[v] * scale), cu_el_color, 2);
+                cu_x = (v + 1) * (canvas.width / (arr.length+1));
+                draw_pillar(cu_x, canvas.height, cu_x, canvas.height - (arr[v] * scale), cu_el_color, 4);
             });
         }
     }
 }
+// function display_pillar_spiral(arr, cu_el_i, l, r, cu_el_color, f_area_color) {
+//     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+//     for (let i = 360/(arr.length-1), c = 0; i < 360; i+=360/(arr.length-1), c++) {
+//         ctx.beginPath();
+//         ctx.strokeStyle = "black";
+//         ctx.moveTo(canvas.width/2, canvas.height/2);
+//         ctx.lineTo((canvas.width/2) + arr[c] *Math.cos(Math.PI*i/180.0), (canvas.height/2) + arr[c] *Math.sin(Math.PI*i/180.0));
+//         ctx.stroke();
+//     }
+// }
+
 
 async function doSearchingAlgo(f) {
     document.getElementById('algorithm_settings').style.display = "none";
@@ -199,7 +245,16 @@ var glob_amount = 128,
     glob_search_display_func = display_pillars,
     glob_random_func = create_array_random,
     glob_stime = (new Date()).getTime(),
-    glob_show_sorting = true;
+    glob_show_sorting = true,
+    glob_theme = "light",
+    glob_themes = {
+        "light" : {
+            "color": "dimgray"
+        },
+        "dark" : {
+            "color": "whitesmoke"
+        }
+    };
 
 var glob_comp = 0;
 

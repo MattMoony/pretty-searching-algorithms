@@ -1,0 +1,20 @@
+body {
+    color: black;
+}
+h1 {
+    border-bottom: 2px solid black;
+}
+#algorithm_settings, #theme_div {
+    border-left: 1.5px solid dimgray;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+#algorithm_div {
+    background-color: rgba(255, 255, 255, 0.75);
+}
+select,
+input {
+    border: 1px solid #cecece;
+}
+canvas {
+    background-color: white;
+}

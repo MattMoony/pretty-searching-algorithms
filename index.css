@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css?family=Unica+One');
+@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+    overflow: hidden;
+    font-family: 'Roboto';
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Unica One';
+    font-size: 55px;
+
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+}
+
+.important_letter {
+    color: royalblue;
+}
+
+#score_div {
+    display: block;
+    position: fixed;
+    right: 30px;
+    bottom: 100px;
+
+    font-family: 'Quicksand';
+}
+
+#comparisons,
+#runtime {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+td {
+    padding: 0 7.5px;
+}
+
+#algo_info {
+    display: block;
+    position: fixed;
+    right: 30px;
+    top: 150px;
+    background-color: rgba(255, 255, 255, 0.9);
+
+    font-family: 'Quicksand';
+    font-weight: bold;
+    font-size: 17.5px;
+}
+
+#algorithm_div {
+    font-size: 35px;
+}
+
+#algorithm_div::first-letter {
+    color: royalblue;
+}
+
+
+#algorithm_settings {
+    border-left: 1.5px solid dimgray;
+    display: block;
+    position: fixed;
+    left: 25px;
+    top: 350px;
+    padding: 15px 2.5px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+#theme_div {
+    position: fixed;
+    left: 25px;
+    bottom: 25px;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-left: 1.5px solid dimgray;
+    border-radius: 2.5px;
+}
+
+select,
+input {
+    font-size: 12.5px;
+    margin-bottom: 1px;
+    font-family: 'Roboto';
+    padding: 2.5px 7.5px;
+    border: 1px solid #cecece;
+    border-radius: 1px;
+}
+
+select:focus,
+input:focus {
+    outline: none;
+}
+
+#algorithm_settings input[type="button"] {
+    background-color: royalblue;
+    border: none;
+    color: white;
+    padding: 7.5px 15px;
+    border-radius: 2.5px;
+    font-size: 15px;
+    margin-top: 12.5px;
+    transition: .5s ease;
+}
+
+#algorithm_settings input[type="button"]:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+td:last-child {
+    text-align: right;
+}
+
+
+#canvas_div {
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+
+    /* border-left: 2px dashed dimgray;
+            border-right: 2px dashed dimgray; */
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    /* background-color: aliceblue; */
+
+    /* border-bottom: 1.5px solid dimgray; */
+}
+
+footer {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    text-align: center;
+    padding-bottom: 10px;
+    font-family: 'Share Tech Mono';
+}

@@ -1,0 +1,23 @@
+body {
+    color: white;
+    background-color: black;
+}
+h1 {
+    border-bottom: 2px solid white;
+}
+#algorithm_settings, #theme_div {
+    border: 1.5px solid dimgray;
+    background-color: whitesmoke;
+    border-radius: 2.5px;
+    color: black;
+}
+#algo_info {
+    background-color: rgba(0,0,0,0.75);
+}
+select,
+input {
+    border: 1px solid #cecece;
+}
+canvas {
+    background-color: black;
+}
